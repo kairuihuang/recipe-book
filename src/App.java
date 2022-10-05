@@ -67,7 +67,36 @@ public class App {
   // TODO: Implement
   // Display recipe information
   public static void display_recipe(int recipe_num) {
-    System.out.printf("You have chosen recipe#%d! (To be implemented)\n", recipe_num);
+    System.out.printf("You have chosen recipe #%d!\n", recipe_num);
+
+    JSONParser parser = new JSONParser();
+    try{
+      JSONArray jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
+      JSONObject recipe = (JSONObject) jsonarray.get(recipe_num - 1);
+
+      String name = (String) recipe.get("name");
+      List<String> instructions = (List<String>) recipe.get("instructions");
+      String description = (String) recipe.get("description");
+      List<String> ingredients = (List<String>) recipe.get("ingredients");
+
+      System.out.printf("\tName: %s\n", name);
+      System.out.printf("\tDescription: %s\n", description);
+      System.out.printf("\tIngredients: \n");
+      for (int i = 0; i < ingredients.size(); i++) {
+        System.out.printf("\t\t(%d) %s\n", i+1, ingredients.get(i));
+      }
+      System.out.printf("\tInstructions: \n");
+      for (int i = 0; i < instructions.size(); i++) {
+        System.out.printf("\t\t(%d) %s\n", i+1, instructions.get(i));
+      }
+  } catch (Exception e){
+    e.printStackTrace();
+  }
+
+
+
+
+
   }
 
   // list all recipes and prompt user to select which one to view
