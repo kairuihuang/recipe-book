@@ -64,14 +64,18 @@ public class App {
     save_recipe_to_file(r);
   }
 
+  // search function that allows user to search for a recipe by name
   public static void search_for_recipe(Scanner scanner){
     while(true){
+      //Prompts the user to enter the name of the recipe. 
+      //Case letters are ignored and substrings of recipe names are allowed to make this more user-friendly.
       System.out.println("To search for a specific recipe, please enter its name or enter 'back' to go back to the main menu: ");
       String name = scanner.nextLine();
 
       JSONParser parser = new JSONParser();
       JSONArray jsonarray;
       try {
+        //Adds all the matches to an array
         ArrayList<JSONObject> recipe_array = new ArrayList<JSONObject>();
         jsonarray = (JSONArray) parser.parse(new FileReader(RECIPEBOOK));
         for (int i = 0; i < jsonarray.size(); i++) {
@@ -84,6 +88,7 @@ public class App {
           }
         }
         
+        //Displays all the matches that were found and allows the user to choose the specific one they want to display.
         while(true){
           System.out.println("These are the matches that were found: ");
 
