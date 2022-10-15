@@ -85,7 +85,8 @@ public class App {
           if (name.equalsIgnoreCase("back")) {
             return;
           }
-          if (name.equalsIgnoreCase((String) recipe.get("name")) || ((String) recipe.get("name")).contains(name)) {
+          if (name.equalsIgnoreCase((String) recipe.get("name"))
+              || ((String) recipe.get("name")).toLowerCase().contains(name.toLowerCase())) {
             recipe_array.add(recipe);
           }
         }
@@ -93,6 +94,11 @@ public class App {
         // Displays all the matches that were found and allows the user to choose the
         // specific one they want to display.
         while (true) {
+          if (recipe_array.size() == 0) {
+            System.out.println("There were no matching recipes.");
+            break;
+          }
+
           System.out.println("These are the matches that were found: ");
 
           for (int i = 0; i < recipe_array.size(); i++) {
@@ -105,23 +111,29 @@ public class App {
 
           if (input.equalsIgnoreCase("back")) {
             break;
-          } else if (Integer.valueOf(input) > recipe_array.size()) {
-            System.out.println("Invalid input, please try again.");
-            continue;
           } else {
-
-            for (int i = 0; i < recipe_array.size(); i++) {
-              if (i + 1 == Integer.valueOf(input)) {
-                display_recipe(recipe_array.get(i), scanner);
-                break;
+            try {
+              if (Integer.parseInt(input) > recipe_array.size() || Integer.parseInt(input) < 1) {
+                System.out.println("Invalid input, please try again.");
+                continue;
+              } else {
+                for (int i = 0; i < recipe_array.size(); i++) {
+                  if (i + 1 == Integer.parseInt(input)) {
+                    display_recipe(recipe_array.get(i), scanner);
+                    break;
+                  }
+                }
               }
+            } catch (Exception e) {
+              System.out.println("Invalid input, please try again.");
+              continue;
             }
           }
           break;
         }
 
       } catch (Exception e) {
-        e.printStackTrace();
+        System.out.println("Error: not an integer, going back to search.");
       }
     }
 
